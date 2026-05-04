@@ -26,7 +26,7 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="w-full min-h-screen bg-cream py-32 px-[5vw]">
+    <section className="w-full min-h-screen bg-cream py-16 md:py-32 px-[5vw]">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}

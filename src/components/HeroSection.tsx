@@ -82,14 +82,14 @@ export default function HeroSection() {
         </div>
 
         {/* Right Column: Image */}
-        <div className="w-full md:w-[45%] h-[45vh] md:h-full relative flex items-end justify-center z-10 mt-10 md:mt-0">
+        <div className="w-full md:w-[45%] h-[40vh] md:h-full relative flex items-end justify-center z-10 mt-12 md:mt-0 pb-0">
           
           {/* Decorative Background Auras */}
           <motion.div 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1, type: "spring" }}
-            className="absolute top-1/3 right-0 md:right-10 w-48 md:w-80 h-48 md:h-80 bg-purple rounded-full blur-[60px] md:blur-[100px] opacity-40 z-0"
+            className="absolute top-1/4 right-0 md:right-10 w-48 md:w-80 h-48 md:h-80 bg-purple rounded-full blur-[60px] md:blur-[100px] opacity-40 z-0"
           />
           <motion.div 
             initial={{ scale: 0 }}
@@ -109,7 +109,7 @@ export default function HeroSection() {
               src="/images/removerfundo-remove-bg-io.png" 
               alt="Emilly Yasmin"
               fill
-              className="object-contain object-bottom md:scale-[1.4] origin-bottom drop-shadow-[10px_10px_0px_rgba(255,159,211,1)] md:drop-shadow-[15px_15px_0px_rgba(255,159,211,1)]"
+              className="object-contain object-bottom scale-[1.3] md:scale-[1.4] origin-bottom drop-shadow-[10px_10px_0px_rgba(255,159,211,1)] md:drop-shadow-[15px_15px_0px_rgba(255,159,211,1)]"
               priority
             />
 
@@ -117,7 +117,7 @@ export default function HeroSection() {
             <motion.div 
               animate={{ y: [-10, 10, -10], rotate: [-5, 5, -5] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute top-[10%] md:top-[20%] left-[5%] md:left-0 bg-cream border-4 border-navy rounded-full p-2 md:p-4 shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] z-20"
+              className="absolute top-[25%] md:top-[20%] left-[10%] md:left-0 bg-cream border-4 border-navy rounded-full p-2 md:p-4 shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] z-20"
             >
               <Sparkles className="text-lime w-6 h-6 md:w-8 md:h-8" fill="currentColor" />
             </motion.div>

@@ -5,7 +5,7 @@ import { ArrowUpRight, Play } from "lucide-react";
 
 export default function ProjectsSection() {
   return (
-    <section className="w-full bg-cream pt-12 pb-32 px-[5vw] overflow-hidden">
+    <section className="w-full bg-cream pt-12 pb-16 md:pb-32 px-[5vw] overflow-hidden">
       
       {/* Section Header */}
       <motion.div

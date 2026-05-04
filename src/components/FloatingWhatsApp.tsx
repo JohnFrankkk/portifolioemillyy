@@ -38,13 +38,6 @@ export default function FloatingWhatsApp() {
         whileTap={{ scale: 0.9 }}
       >
         <MessageCircle size={32} />
-
-        {/* Ripple */}
-        <motion.div
-          className="absolute inset-0 border-4 border-navy rounded-full -z-10"
-          animate={{ scale: [1, 1.4], opacity: [1, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
-        />
       </motion.a>
     </motion.div>
   );

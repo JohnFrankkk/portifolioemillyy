@@ -15,16 +15,16 @@ export default function AboutSection() {
   };
 
   return (
-    <section className="w-full min-h-screen bg-wavy-pink py-32 px-[5vw] flex flex-col lg:flex-row items-center justify-center gap-16 relative">
+    <section className="w-full min-h-screen bg-wavy-pink py-16 md:py-32 px-[5vw] flex flex-col lg:flex-row items-center justify-center gap-16 relative">
       <motion.div 
-        className="w-full lg:w-5/12 relative"
+        className="w-full lg:w-5/12 relative order-2 lg:order-1 mt-8 lg:mt-0"
         initial={{ opacity: 0, x: -50, rotate: -10 }}
         whileInView={{ opacity: 1, x: 0, rotate: -2 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.8, type: "spring" }}
       >
         <div className="absolute inset-0 bg-lime rounded-3xl translate-x-4 translate-y-4 border-4 border-navy" />
-        <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden border-4 border-navy bg-cream">
+        <div className="relative w-full aspect-[3/4] md:aspect-[4/5] lg:aspect-[3/4] rounded-3xl overflow-hidden border-4 border-navy bg-cream">
           <Image 
             src="/images/IMG_3201-removebg.png" 
             alt="Emilly Yasmin Profile"
@@ -35,7 +35,7 @@ export default function AboutSection() {
       </motion.div>
 
       <motion.div 
-        className="w-full lg:w-7/12 flex flex-col bg-cream/90 backdrop-blur-md p-8 md:p-12 rounded-[40px] border-4 border-navy shadow-[12px_12px_0px_0px_rgba(26,27,65,1)]"
+        className="w-full lg:w-7/12 flex flex-col bg-cream/90 backdrop-blur-md p-6 md:p-12 rounded-[40px] border-4 border-navy shadow-[12px_12px_0px_0px_rgba(26,27,65,1)] order-1 lg:order-2"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
