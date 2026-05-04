@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  devIndicators: {
-    appIsrStatus: false, // Hides the 'N' (Next.js static route) indicator
-  },
+  /* config options here */
 };
 
 export default nextConfig;
