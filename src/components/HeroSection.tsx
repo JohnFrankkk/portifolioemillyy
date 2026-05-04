@@ -88,13 +88,13 @@ export default function HeroSection() {
           <motion.div 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 1, type: "spring" }}
+            transition={{ duration: 1, type: "spring" as const }}
             className="absolute top-1/4 right-0 md:right-10 w-48 md:w-80 h-48 md:h-80 bg-purple rounded-full blur-[60px] md:blur-[100px] opacity-40 z-0"
           />
           <motion.div 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 1, type: "spring", delay: 0.2 }}
+            transition={{ duration: 1, type: "spring" as const, delay: 0.2 }}
             className="absolute bottom-10 left-0 md:left-10 w-48 md:w-80 h-48 md:h-80 bg-pink rounded-full blur-[60px] md:blur-[100px] opacity-40 z-0"
           />
 
@@ -102,7 +102,7 @@ export default function HeroSection() {
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, type: "spring", bounce: 0.4 }}
+            transition={{ duration: 1, type: "spring" as const, bounce: 0.4 }}
             className="relative w-[110%] md:w-[130%] h-full md:h-[85%] z-10"
           >
             <Image 

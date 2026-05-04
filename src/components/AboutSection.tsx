@@ -11,7 +11,7 @@ export default function AboutSection() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: "spring" } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, type: "spring" as const } },
   };
 
   return (
@@ -21,7 +21,7 @@ export default function AboutSection() {
         initial={{ opacity: 0, x: -50, rotate: -10 }}
         whileInView={{ opacity: 1, x: 0, rotate: -2 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, type: "spring" }}
+        transition={{ duration: 0.8, type: "spring" as const }}
       >
         <div className="absolute inset-0 bg-lime rounded-3xl translate-x-4 translate-y-4 border-4 border-navy" />
         <div className="relative w-full aspect-[3/4] md:aspect-[4/5] lg:aspect-[3/4] rounded-3xl overflow-hidden border-4 border-navy bg-cream">

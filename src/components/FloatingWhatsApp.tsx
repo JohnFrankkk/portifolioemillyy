@@ -15,7 +15,7 @@ export default function FloatingWhatsApp() {
       className="fixed bottom-8 right-8 z-50 flex items-center gap-4"
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 2, type: "spring", stiffness: 200, damping: 20 }}
+      transition={{ delay: 2, type: "spring" as const, stiffness: 200, damping: 20 }}
     >
       {/* Tooltip Label */}
       <motion.div

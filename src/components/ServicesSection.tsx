@@ -46,7 +46,7 @@ export default function ServicesSection() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: index * 0.2, type: "spring" }}
+            transition={{ duration: 0.5, delay: index * 0.2, type: "spring" as const }}
             whileHover={{ y: -10 }}
             className={`${service.color} ${service.textColor || 'text-navy'} rounded-[40px] border-4 border-navy p-8 shadow-[8px_8px_0px_0px_rgba(26,27,65,1)] hover-trigger cursor-none flex flex-col h-full`}
           >

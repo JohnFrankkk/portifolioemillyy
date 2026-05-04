@@ -11,7 +11,7 @@ export default function FooterSection() {
         initial={{ opacity: 0, scale: 0.9 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, type: "spring" }}
+        transition={{ duration: 0.8, type: "spring" as const }}
       >
         <h2 className="font-display font-black text-6xl md:text-8xl uppercase mb-8 leading-none">
           Bora criar<br/>
