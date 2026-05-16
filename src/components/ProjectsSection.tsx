@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState, useCallback } from "react";
@@ -67,7 +67,7 @@ function VideoCard({ src, title, tag, color }: { src: string; title: string; tag
   );
 }
 
-/* ─── Design Card (Static Image) ─── */
+/* ─── Design Card (Square, object-contain) ─── */
 function DesignCard({ src, title, tag }: { src: string; title: string; tag: string }) {
   return (
     <motion.div
@@ -97,7 +97,7 @@ function DesignCard({ src, title, tag }: { src: string; title: string; tag: stri
   );
 }
 
-/* ─── Photo Card (Landscape) ─── */
+/* ─── Photo Card ─── */
 function PhotoCard({ src, title }: { src: string; title: string }) {
   return (
     <motion.div
@@ -118,6 +118,7 @@ function PhotoCard({ src, title }: { src: string; title: string }) {
     </motion.div>
   );
 }
+
 /* ─── Prakriti Video Carousel ─── */
 const prakritiReels = [
   { src: "/videos/prakriti-yoga-1.mp4", title: "Yoga Flow", color: "bg-lime" },
@@ -127,53 +128,43 @@ const prakritiReels = [
 
 function PrakritiCarousel() {
   const [current, setCurrent] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
-  const goTo = useCallback((idx: number) => {
-    setCurrent(idx);
-    setIsPlaying(false);
-  }, []);
+  // Callback ref: fires every time the video element mounts (including on key change)
+  const videoRef = useCallback((node: HTMLVideoElement | null) => {
+    if (node && isHovering) {
+      node.play().catch(() => {});
+      setIsPlaying(true);
+    }
+  }, [isHovering]);
 
-  const prev = () => goTo(current === 0 ? prakritiReels.length - 1 : current - 1);
-  const next = () => goTo(current === prakritiReels.length - 1 ? 0 : current + 1);
+  const prev = () => { setCurrent(c => c === 0 ? prakritiReels.length - 1 : c - 1); setIsPlaying(false); };
+  const next = () => { setCurrent(c => c === prakritiReels.length - 1 ? 0 : c + 1); setIsPlaying(false); };
+  const goTo = (i: number) => { setCurrent(i); setIsPlaying(false); };
 
-  const handlePlay = () => {
-    videoRef.current?.play();
-    setIsPlaying(true);
-  };
-  const handlePause = () => {
-    videoRef.current?.pause();
-    setIsPlaying(false);
-  };
+  const handleEnter = () => setIsHovering(true);
+  const handleLeave = () => { setIsHovering(false); setIsPlaying(false); };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="w-full lg:w-1/2 p-4 md:p-8 bg-cream flex flex-col items-center justify-center">
       <div
-        className="relative w-full max-w-[280px] md:max-w-[320px] aspect-[9/16] rounded-3xl border-4 border-navy shadow-[8px_8px_0px_0px_rgba(26,27,65,1)] overflow-hidden mb-6 cursor-pointer"
-        onMouseEnter={handlePlay}
-        onMouseLeave={handlePause}
-        onTouchStart={handlePlay}
-        onTouchEnd={handlePause}
+        className="relative w-full max-w-[300px] aspect-[9/16] rounded-3xl border-4 border-navy shadow-[8px_8px_0px_0px_rgba(26,27,65,1)] overflow-hidden mb-6 cursor-pointer"
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        onTouchStart={handleEnter}
+        onTouchEnd={handleLeave}
       >
-        <AnimatePresence mode="wait">
-          <motion.video
-            key={current}
-            ref={videoRef}
-            src={prakritiReels[current].src}
-            loop
-            playsInline
-            preload="metadata"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </AnimatePresence>
-
+        <video
+          key={current}
+          ref={videoRef}
+          src={prakritiReels[current].src}
+          loop
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
         <div className={`absolute inset-0 bg-gradient-to-t ${isPlaying ? 'from-navy/50 via-transparent to-transparent' : 'from-navy/80 via-navy/20 to-transparent'} transition-all duration-500 z-10`} />
-
         {!isPlaying && (
           <div className="absolute inset-0 z-20 flex items-center justify-center">
             <div className="w-16 h-16 bg-cream/90 rounded-full border-4 border-navy flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(26,27,65,1)]">
@@ -181,7 +172,6 @@ function PrakritiCarousel() {
             </div>
           </div>
         )}
-
         <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
           <span className={`${prakritiReels[current].color} text-navy font-bold px-3 py-1 rounded-full text-xs uppercase border-2 border-navy inline-block mb-2`}>
             Reel {current + 1}/{prakritiReels.length}
@@ -191,7 +181,6 @@ function PrakritiCarousel() {
           </h4>
         </div>
       </div>
-
       <div className="flex items-center gap-6">
         <button onClick={prev} className="w-12 h-12 bg-navy text-cream rounded-full border-4 border-navy flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(255,159,211,1)] hover:bg-purple transition-colors">
           <ChevronLeft size={24} />
@@ -229,11 +218,13 @@ export default function ProjectsSection() {
         </p>
       </motion.div>
 
-      {/* FEATURED CASE: PRAKRITI YOGA — UNIFIED BLOCK */}
-      <div className="w-full border-8 border-navy rounded-[40px] overflow-hidden shadow-[16px_16px_0px_0px_rgba(255,159,211,1)] bg-cream mb-20">
+      {/* ═══════════════════════════════════════ */}
+      {/* FEATURED CASE: PRAKRITI YOGA            */}
+      {/* ═══════════════════════════════════════ */}
+      <div className="w-full flex flex-col lg:flex-row border-8 border-navy rounded-[40px] overflow-hidden shadow-[16px_16px_0px_0px_rgba(255,159,211,1)] bg-cream mb-20">
         
-        {/* Top: Info */}
-        <div className="w-full p-6 md:p-12 border-b-8 border-navy bg-wavy-pink">
+        {/* Left Side: Info */}
+        <div className="w-full lg:w-1/2 p-6 md:p-12 border-b-8 lg:border-b-0 lg:border-r-8 border-navy flex flex-col bg-wavy-pink">
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="bg-lime text-navy font-bold px-4 py-1 rounded-full uppercase text-sm border-2 border-navy">Case Principal</span>
             <span className="bg-cream text-navy font-bold px-4 py-1 rounded-full uppercase text-sm border-2 border-navy flex items-center gap-2">
@@ -241,51 +232,47 @@ export default function ProjectsSection() {
             </span>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
-            <div className="flex-1">
-              <h3 className="font-display font-black text-4xl md:text-6xl text-navy uppercase mb-4 leading-tight">
-                Prakriti Yoga Oficial
-              </h3>
-              <p className="font-body text-base md:text-lg text-navy/80 font-medium mb-6 max-w-xl">
-                Reposicionamento completo da marca, elevando o perfil de um estúdio de yoga para uma comunidade de bem-estar de alto padrão.
-              </p>
-              <motion.a 
-                href="https://www.instagram.com/prakritiyogaoficial?igsh=MjA5cThnd2E0dTl6"
-                target="_blank"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-purple text-cream font-display font-bold text-base md:text-lg px-6 py-3 rounded-full border-4 border-navy shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] inline-flex items-center gap-3 group"
-              >
-                Ver no Instagram
-                <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" size={20} />
-              </motion.a>
-            </div>
+          <h3 className="font-display font-black text-4xl md:text-6xl text-navy uppercase mb-6 leading-tight">
+            Prakriti Yoga<br/>Oficial
+          </h3>
+          
+          <p className="font-body text-base md:text-lg text-navy/80 font-medium mb-8">
+            Reposicionamento completo da marca, elevando o perfil de um estúdio de yoga para uma comunidade de bem-estar de alto padrão. Atuamos com edição de vídeo (reels virais), copywriting engajador e direção fotográfica estética.
+          </p>
 
-            <div className="grid grid-cols-2 gap-3 flex-shrink-0 w-full md:w-auto md:max-w-[280px]">
-              <div className="bg-cream border-4 border-navy p-3 rounded-2xl">
-                <div className="font-script text-purple text-2xl font-bold">Direção</div>
-                <div className="font-display font-black text-sm uppercase">Visual e Arte</div>
-              </div>
-              <div className="bg-cream border-4 border-navy p-3 rounded-2xl">
-                <div className="font-script text-purple text-2xl font-bold">Edição</div>
-                <div className="font-display font-black text-sm uppercase">Reels &amp; CapCut</div>
-              </div>
-              <div className="bg-cream border-4 border-navy p-3 rounded-2xl">
-                <div className="font-script text-purple text-2xl font-bold">Copy</div>
-                <div className="font-display font-black text-sm uppercase">Roteiro &amp; Legend</div>
-              </div>
-              <div className="bg-cream border-4 border-navy p-3 rounded-2xl">
-                <div className="font-script text-purple text-2xl font-bold">Estratégia</div>
-                <div className="font-display font-black text-sm uppercase">Calendário</div>
-              </div>
+          <div className="grid grid-cols-2 gap-3 mb-8">
+            <div className="bg-cream border-4 border-navy p-3 md:p-4 rounded-2xl">
+              <div className="font-script text-purple text-2xl md:text-3xl font-bold">Direção</div>
+              <div className="font-display font-black text-sm md:text-lg uppercase">Visual e Arte</div>
+            </div>
+            <div className="bg-cream border-4 border-navy p-3 md:p-4 rounded-2xl">
+              <div className="font-script text-purple text-2xl md:text-3xl font-bold">Edição</div>
+              <div className="font-display font-black text-sm md:text-lg uppercase">Reels &amp; CapCut</div>
+            </div>
+            <div className="bg-cream border-4 border-navy p-3 md:p-4 rounded-2xl">
+              <div className="font-script text-purple text-2xl md:text-3xl font-bold">Copy</div>
+              <div className="font-display font-black text-sm md:text-lg uppercase">Roteiro &amp; Legend</div>
+            </div>
+            <div className="bg-cream border-4 border-navy p-3 md:p-4 rounded-2xl">
+              <div className="font-script text-purple text-2xl md:text-3xl font-bold">Estratégia</div>
+              <div className="font-display font-black text-sm md:text-lg uppercase">Calendário</div>
             </div>
           </div>
+
+          <motion.a 
+            href="https://www.instagram.com/prakritiyogaoficial?igsh=MjA5cThnd2E0dTl6"
+            target="_blank"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-auto bg-purple text-cream font-display font-bold text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 rounded-full border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] flex items-center justify-between group self-start gap-3"
+          >
+            Ver no Instagram
+            <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </motion.a>
         </div>
 
-        {/* Bottom: Carousel */}
-        <div className="w-full py-8 px-4 md:py-12 bg-cream">
-          <PrakritiCarousel />
-        </div>
+        {/* Right Side: Carousel */}
+        <PrakritiCarousel />
       </div>
 
 
