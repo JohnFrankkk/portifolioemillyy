@@ -158,7 +158,6 @@ function PrakritiCarousel() {
           key={current}
           ref={videoRef}
           src={prakritiReels[current].src}
-          muted
           loop
           playsInline
           preload="auto"
