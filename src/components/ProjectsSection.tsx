@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 
 /* ─── Video Card with Play on Hover ─── */
 function VideoCard({ src, title, tag, color }: { src: string; title: string; tag: string; color: string }) {
@@ -36,7 +36,6 @@ function VideoCard({ src, title, tag, color }: { src: string; title: string; tag
       <video
         ref={videoRef}
         src={src}
-        muted
         loop
         playsInline
         preload="metadata"
@@ -119,6 +118,89 @@ function PhotoCard({ src, title }: { src: string; title: string }) {
     </motion.div>
   );
 }
+/* ─── Prakriti Video Carousel ─── */
+const prakritiReels = [
+  { src: "/videos/prakriti-yoga-1.mp4", title: "Yoga Flow", color: "bg-lime" },
+  { src: "/videos/prakriti-yoga-2.mp4", title: "Consciência", color: "bg-pink" },
+  { src: "/videos/prakriti-yoga-3.mp4", title: "Movimento", color: "bg-purple" },
+];
+
+function PrakritiCarousel() {
+  const [current, setCurrent] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const goTo = useCallback((idx: number) => {
+    setCurrent(idx);
+  }, []);
+
+  const prev = () => goTo(current === 0 ? prakritiReels.length - 1 : current - 1);
+  const next = () => goTo(current === prakritiReels.length - 1 ? 0 : current + 1);
+
+  return (
+    <div className="w-full lg:w-1/2 p-4 md:p-8 bg-cream flex flex-col items-center justify-center">
+      {/* Video Display */}
+      <div className="relative w-full max-w-[300px] aspect-[9/16] rounded-3xl border-4 border-navy shadow-[8px_8px_0px_0px_rgba(26,27,65,1)] overflow-hidden mb-6">
+        <AnimatePresence mode="wait">
+          <motion.video
+            key={current}
+            ref={videoRef}
+            src={prakritiReels[current].src}
+            autoPlay
+            loop
+            playsInline
+            preload="metadata"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </AnimatePresence>
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent z-10" />
+
+        {/* Title */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
+          <span className={`${prakritiReels[current].color} text-navy font-bold px-3 py-1 rounded-full text-xs uppercase border-2 border-navy inline-block mb-2`}>
+            Reel {current + 1}/{prakritiReels.length}
+          </span>
+          <h4 className="font-display font-black text-lg text-cream uppercase leading-tight">
+            {prakritiReels[current].title}
+          </h4>
+        </div>
+      </div>
+
+      {/* Arrow Controls */}
+      <div className="flex items-center gap-6">
+        <button
+          onClick={prev}
+          className="w-12 h-12 bg-navy text-cream rounded-full border-4 border-navy flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(255,159,211,1)] hover:bg-purple transition-colors"
+        >
+          <ChevronLeft size={24} />
+        </button>
+
+        {/* Dots */}
+        <div className="flex gap-2">
+          {prakritiReels.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              className={`w-3 h-3 rounded-full border-2 border-navy transition-all ${i === current ? 'bg-lime scale-125' : 'bg-cream'}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={next}
+          className="w-12 h-12 bg-navy text-cream rounded-full border-4 border-navy flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(212,255,60,1)] hover:bg-purple transition-colors"
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 /* ─── MAIN SECTION ─── */
 export default function ProjectsSection() {
@@ -193,12 +275,8 @@ export default function ProjectsSection() {
           </motion.a>
         </div>
 
-        {/* Right Side: Real Prakriti Videos */}
-        <div className="w-full lg:w-1/2 p-4 md:p-8 bg-cream grid grid-cols-2 lg:grid-cols-3 gap-4">
-          <VideoCard src="/videos/prakriti-yoga-1.mp4" title="Yoga Flow" tag="Reel" color="bg-lime" />
-          <VideoCard src="/videos/prakriti-yoga-2.mp4" title="Consciência" tag="Reel" color="bg-pink" />
-          <VideoCard src="/videos/prakriti-yoga-3.mp4" title="Movimento" tag="Reel" color="bg-purple" />
-        </div>
+        {/* Right Side: Prakriti Video Carousel */}
+        <PrakritiCarousel />
       </div>
 
 
@@ -280,36 +358,6 @@ export default function ProjectsSection() {
           <PhotoCard key={num} src={`/images/portfolio/IMG${num}.jpg`} title={`Produção ${num}`} />
         ))}
       </div>
-
-
-      {/* ═══════════════════════════════════════ */}
-      {/* INSTAGRAM PREVIEW                       */}
-      {/* ═══════════════════════════════════════ */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="w-full bg-navy rounded-[40px] border-4 border-navy p-8 md:p-16 flex flex-col items-center text-center"
-      >
-        <span className="bg-pink text-navy font-bold px-6 py-2 rounded-full uppercase text-sm border-2 border-navy mb-6">Instagram</span>
-        <h3 className="font-display font-black text-4xl md:text-6xl text-cream uppercase mb-4 leading-tight">
-          Acompanhe meu <span className="text-lime">trabalho</span>
-        </h3>
-        <p className="font-body font-medium text-cream/60 text-base md:text-lg mb-8 max-w-lg">
-          Siga o perfil da Prakriti Yoga no Instagram para ver os resultados em tempo real do meu trabalho de social media.
-        </p>
-        <motion.a
-          href="https://www.instagram.com/prakritiyogaoficial?igsh=MjA5cThnd2E0dTl6"
-          target="_blank"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-lime text-navy font-display font-black text-lg md:text-xl px-8 py-4 rounded-full border-4 border-navy shadow-[6px_6px_0px_0px_rgba(255,159,211,1)] flex items-center gap-3 group"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-          @prakritiyogaoficial
-          <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-        </motion.a>
-      </motion.div>
 
     </section>
   );

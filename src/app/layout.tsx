@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${outfit.variable} ${inter.variable} ${caveat.variable}`}>
-      <body className="antialiased selection:bg-[#FF9FD3] selection:text-[#6344FF] cursor-default">
+      <body className="antialiased selection:bg-[#FF9FD3] selection:text-[#6344FF]">
         <SmoothScrolling>
           {children}
         </SmoothScrolling>
