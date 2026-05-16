@@ -129,55 +129,39 @@ const prakritiReels = [
 function PrakritiCarousel() {
   const [current, setCurrent] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Play/pause whenever hover state changes
-  useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid) return;
-    if (isHovering) {
-      vid.play().catch(() => {});
-      setIsPlaying(true);
-    } else {
-      vid.pause();
-      vid.currentTime = 0;
-      setIsPlaying(false);
-    }
-  }, [isHovering]);
-
-  // When video loads after slide change, auto-play if hovering
-  const handleVideoReady = () => {
-    if (isHovering && videoRef.current) {
-      videoRef.current.play().catch(() => {});
-      setIsPlaying(true);
-    }
+  const handleMouseEnter = () => {
+    videoRef.current?.play();
+    setIsPlaying(true);
+  };
+  const handleMouseLeave = () => {
+    videoRef.current?.pause();
+    if (videoRef.current) videoRef.current.currentTime = 0;
+    setIsPlaying(false);
   };
 
   const prev = () => { setCurrent(c => c === 0 ? prakritiReels.length - 1 : c - 1); setIsPlaying(false); };
   const next = () => { setCurrent(c => c === prakritiReels.length - 1 ? 0 : c + 1); setIsPlaying(false); };
   const goTo = (i: number) => { setCurrent(i); setIsPlaying(false); };
 
-  const handleEnter = () => setIsHovering(true);
-  const handleLeave = () => setIsHovering(false);
-
   return (
     <div className="w-full lg:w-1/2 p-4 md:p-8 bg-cream flex flex-col items-center justify-center">
       <div
         className="relative w-full max-w-[300px] aspect-[9/16] rounded-3xl border-4 border-navy shadow-[8px_8px_0px_0px_rgba(26,27,65,1)] overflow-hidden mb-6 cursor-pointer"
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
-        onTouchStart={handleEnter}
-        onTouchEnd={handleLeave}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleMouseEnter}
+        onTouchEnd={handleMouseLeave}
       >
         <video
           key={current}
           ref={videoRef}
           src={prakritiReels[current].src}
+          muted
           loop
           playsInline
           preload="auto"
-          onLoadedData={handleVideoReady}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className={`absolute inset-0 bg-gradient-to-t ${isPlaying ? 'from-navy/50 via-transparent to-transparent' : 'from-navy/80 via-navy/20 to-transparent'} transition-all duration-500 z-10`} />
