@@ -11,12 +11,26 @@ function VideoCard({ src, title, tag, color }: { src: string; title: string; tag
   const [isPlaying, setIsPlaying] = useState(false);
 
   const handleMouseEnter = () => {
-    videoRef.current?.play();
-    setIsPlaying(true);
+    if (videoRef.current) {
+      videoRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((err) => {
+        if (err.name === 'NotAllowedError') {
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+            videoRef.current.play().catch(() => {});
+            setIsPlaying(true);
+          }
+        }
+      });
+    }
   };
   const handleMouseLeave = () => {
-    videoRef.current?.pause();
-    if (videoRef.current) videoRef.current.currentTime = 0;
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      videoRef.current.muted = false;
+    }
     setIsPlaying(false);
   };
 
@@ -132,12 +146,29 @@ function PrakritiCarousel() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseEnter = () => {
-    videoRef.current?.play();
-    setIsPlaying(true);
+    if (videoRef.current) {
+      videoRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((err) => {
+        // If the browser blocks unmuted autoplay, mute and play anyway
+        if (err.name === 'NotAllowedError') {
+          if (videoRef.current) {
+            videoRef.current.muted = true;
+            videoRef.current.play().catch(() => {});
+            setIsPlaying(true);
+          }
+        }
+      });
+    }
   };
+
   const handleMouseLeave = () => {
-    videoRef.current?.pause();
-    if (videoRef.current) videoRef.current.currentTime = 0;
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      // Optionally unmute it again when they leave, so next time it tries unmuted
+      videoRef.current.muted = false;
+    }
     setIsPlaying(false);
   };
 
