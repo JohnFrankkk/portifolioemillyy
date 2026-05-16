@@ -10,8 +10,22 @@ function VideoCard({ src, title, tag, color }: { src: string; title: string; tag
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
+  useEffect(() => {
+    const handlePauseOthers = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (videoRef.current && customEvent.detail !== videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+        setIsPlaying(false);
+      }
+    };
+    window.addEventListener("stopOtherVideos", handlePauseOthers);
+    return () => window.removeEventListener("stopOtherVideos", handlePauseOthers);
+  }, []);
+
   const handleMouseEnter = () => {
     if (videoRef.current) {
+      window.dispatchEvent(new CustomEvent("stopOtherVideos", { detail: videoRef.current }));
       videoRef.current.play().then(() => {
         setIsPlaying(true);
       }).catch((err) => {
@@ -145,8 +159,22 @@ function PrakritiCarousel() {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  useEffect(() => {
+    const handlePauseOthers = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (videoRef.current && customEvent.detail !== videoRef.current) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
+        setIsPlaying(false);
+      }
+    };
+    window.addEventListener("stopOtherVideos", handlePauseOthers);
+    return () => window.removeEventListener("stopOtherVideos", handlePauseOthers);
+  }, []);
+
   const handleMouseEnter = () => {
     if (videoRef.current) {
+      window.dispatchEvent(new CustomEvent("stopOtherVideos", { detail: videoRef.current }));
       videoRef.current.play().then(() => {
         setIsPlaying(true);
       }).catch((err) => {
