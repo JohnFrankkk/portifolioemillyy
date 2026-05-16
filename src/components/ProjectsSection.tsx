@@ -90,20 +90,20 @@ function DesignCard({ src, title, tag }: { src: string; title: string; tag: stri
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, type: "spring" as const }}
       whileHover={{ scale: 1.03, rotate: -1 }}
-      className="relative aspect-square rounded-3xl border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] overflow-hidden group"
+      className="relative aspect-square rounded-3xl border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] overflow-hidden group bg-cream"
     >
       <Image
         src={src}
         alt={title}
         fill
-        className="object-contain bg-cream group-hover:scale-105 transition-transform duration-700"
+        className="object-contain group-hover:scale-105 transition-transform duration-700 p-2"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/10 to-transparent z-10 pointer-events-none" />
       <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
-        <span className="bg-pink text-navy font-bold px-3 py-1 rounded-full text-xs uppercase border-2 border-navy inline-block mb-2">
+        <span className="bg-pink text-navy font-bold px-3 py-1 rounded-full text-xs uppercase border-2 border-navy inline-block mb-1">
           {tag}
         </span>
-        <h4 className="font-display font-black text-lg text-cream uppercase leading-tight">
+        <h4 className="font-display font-black text-base md:text-lg text-cream uppercase leading-tight">
           {title}
         </h4>
       </div>
@@ -126,9 +126,9 @@ function PhotoCard({ src, title }: { src: string; title: string }) {
         src={src}
         alt={title}
         fill
-        className="object-cover group-hover:scale-110 transition-transform duration-700"
+        className="object-cover object-top group-hover:scale-110 transition-transform duration-700"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
     </motion.div>
   );
 }
@@ -352,7 +352,7 @@ export default function ProjectsSection() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-20">
         <DesignCard src="/images/designs/POST1.jpg" title="Post Feed" tag="Social Media" />
         <DesignCard src="/images/designs/POST2.jpg" title="Carrossel" tag="Design" />
         <DesignCard src="/images/designs/POST3.jpg" title="Stories" tag="Creative" />
