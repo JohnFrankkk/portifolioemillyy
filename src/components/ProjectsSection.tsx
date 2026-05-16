@@ -27,7 +27,7 @@ function VideoCard({ src, title, tag, color }: { src: string; title: string; tag
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, type: "spring" as const }}
       whileHover={{ scale: 1.03, rotate: 1 }}
-      className="relative aspect-[9/16] rounded-3xl border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] overflow-hidden cursor-none hover-trigger group"
+      className="relative aspect-[9/16] rounded-3xl border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] overflow-hidden group"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleMouseEnter}
@@ -77,13 +77,13 @@ function DesignCard({ src, title, tag }: { src: string; title: string; tag: stri
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, type: "spring" as const }}
       whileHover={{ scale: 1.03, rotate: -1 }}
-      className="relative aspect-[9/16] rounded-3xl border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] overflow-hidden cursor-none hover-trigger group"
+      className="relative aspect-square rounded-3xl border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] overflow-hidden group"
     >
       <Image
         src={src}
         alt={title}
         fill
-        className="object-cover group-hover:scale-110 transition-transform duration-700"
+        className="object-contain bg-cream group-hover:scale-105 transition-transform duration-700"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent z-10" />
       <div className="absolute bottom-0 left-0 right-0 z-20 p-4">
@@ -107,7 +107,7 @@ function PhotoCard({ src, title }: { src: string; title: string }) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, type: "spring" as const }}
       whileHover={{ scale: 1.03 }}
-      className="relative aspect-square rounded-3xl border-4 border-navy shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] overflow-hidden cursor-none hover-trigger group"
+      className="relative aspect-[4/5] rounded-3xl border-4 border-navy shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] overflow-hidden group"
     >
       <Image
         src={src}
@@ -186,7 +186,7 @@ export default function ProjectsSection() {
             target="_blank"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="mt-auto bg-purple text-cream font-display font-bold text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 rounded-full border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] flex items-center justify-between hover-trigger cursor-none group self-start gap-3"
+            className="mt-auto bg-purple text-cream font-display font-bold text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 rounded-full border-4 border-navy shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] flex items-center justify-between group self-start gap-3"
           >
             Ver no Instagram
             <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -194,9 +194,10 @@ export default function ProjectsSection() {
         </div>
 
         {/* Right Side: Real Prakriti Videos */}
-        <div className="w-full lg:w-1/2 p-4 md:p-8 bg-cream grid grid-cols-2 gap-4">
+        <div className="w-full lg:w-1/2 p-4 md:p-8 bg-cream grid grid-cols-2 lg:grid-cols-3 gap-4">
           <VideoCard src="/videos/prakriti-yoga-1.mp4" title="Yoga Flow" tag="Reel" color="bg-lime" />
           <VideoCard src="/videos/prakriti-yoga-2.mp4" title="Consciência" tag="Reel" color="bg-pink" />
+          <VideoCard src="/videos/prakriti-yoga-3.mp4" title="Movimento" tag="Reel" color="bg-purple" />
         </div>
       </div>
 
@@ -274,11 +275,41 @@ export default function ProjectsSection() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-20">
         {[1,2,3,4,5,6,7,8,9,10,11].map((num) => (
           <PhotoCard key={num} src={`/images/portfolio/IMG${num}.jpg`} title={`Produção ${num}`} />
         ))}
       </div>
+
+
+      {/* ═══════════════════════════════════════ */}
+      {/* INSTAGRAM PREVIEW                       */}
+      {/* ═══════════════════════════════════════ */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="w-full bg-navy rounded-[40px] border-4 border-navy p-8 md:p-16 flex flex-col items-center text-center"
+      >
+        <span className="bg-pink text-navy font-bold px-6 py-2 rounded-full uppercase text-sm border-2 border-navy mb-6">Instagram</span>
+        <h3 className="font-display font-black text-4xl md:text-6xl text-cream uppercase mb-4 leading-tight">
+          Acompanhe meu <span className="text-lime">trabalho</span>
+        </h3>
+        <p className="font-body font-medium text-cream/60 text-base md:text-lg mb-8 max-w-lg">
+          Siga o perfil da Prakriti Yoga no Instagram para ver os resultados em tempo real do meu trabalho de social media.
+        </p>
+        <motion.a
+          href="https://www.instagram.com/prakritiyogaoficial?igsh=MjA5cThnd2E0dTl6"
+          target="_blank"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-lime text-navy font-display font-black text-lg md:text-xl px-8 py-4 rounded-full border-4 border-navy shadow-[6px_6px_0px_0px_rgba(255,159,211,1)] flex items-center gap-3 group"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          @prakritiyogaoficial
+          <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+        </motion.a>
+      </motion.div>
 
     </section>
   );

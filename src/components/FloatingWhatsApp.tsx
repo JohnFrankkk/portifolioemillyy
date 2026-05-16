@@ -31,7 +31,7 @@ export default function FloatingWhatsApp() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] border-4 border-navy hover-trigger group relative"
+        className="w-16 h-16 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] border-4 border-navy group relative"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{ scale: 1.1, rotate: -10 }}

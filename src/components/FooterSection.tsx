@@ -13,9 +13,9 @@ export default function FooterSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.8, type: "spring" as const }}
       >
-        <h2 className="font-display font-black text-6xl md:text-8xl uppercase mb-8 leading-none">
+        <h2 className="font-display font-black text-5xl md:text-8xl uppercase mb-8 leading-none">
           Bora criar<br/>
-          <span className="text-pink">Conteúdo</span> <span className="font-script text-lime lowercase text-6xl md:text-8xl">Incrível?</span>
+          <span className="text-pink">um Conteúdo</span> <span className="font-script text-lime lowercase text-5xl md:text-8xl">Incrível?</span>
         </h2>
       </motion.div>
 
@@ -24,7 +24,7 @@ export default function FooterSection() {
         target="_blank"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="bg-lime text-navy font-display font-black text-2xl px-12 py-6 rounded-full border-4 border-navy shadow-[8px_8px_0px_0px_rgba(255,159,211,1)] flex items-center gap-4 hover-trigger cursor-none group mb-20"
+        className="bg-lime text-navy font-display font-black text-2xl px-12 py-6 rounded-full border-4 border-navy shadow-[8px_8px_0px_0px_rgba(255,159,211,1)] flex items-center gap-4 group mb-20"
       >
         Chamar no WhatsApp
         <ArrowRight className="group-hover:translate-x-2 transition-transform" strokeWidth={3} />

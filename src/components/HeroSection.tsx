@@ -34,7 +34,7 @@ export default function HeroSection() {
             <span className="w-2 h-2 rounded-full bg-navy animate-pulse"></span>
             Open for work
           </div>
-          <div className="font-bold text-navy uppercase hover-trigger cursor-none border-2 border-transparent hover:border-navy px-4 py-2 rounded-full transition-all text-sm md:text-base">Menu</div>
+          <div className="font-bold text-navy uppercase border-2 border-transparent hover:border-navy px-4 py-2 rounded-full transition-all text-sm md:text-base">Menu</div>
         </div>
       </nav>
 
@@ -73,7 +73,7 @@ export default function HeroSection() {
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="mt-8 md:mt-10 bg-lime text-navy font-display font-black text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 rounded-full border-4 border-navy shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] md:shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] flex items-center gap-4 hover-trigger cursor-none group"
+              className="mt-8 md:mt-10 bg-lime text-navy font-display font-black text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 rounded-full border-4 border-navy shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] md:shadow-[6px_6px_0px_0px_rgba(26,27,65,1)] flex items-center gap-4 group"
             >
               Ver Projetos
               <ArrowDownRight className="group-hover:rotate-[-45deg] transition-transform" strokeWidth={3} />

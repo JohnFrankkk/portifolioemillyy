@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Inter, Caveat } from "next/font/google";
 import "./globals.css";
-import CustomCursor from "@/components/CustomCursor";
 import SmoothScrolling from "@/components/SmoothScrolling";
 
 const outfit = Outfit({
@@ -34,8 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${outfit.variable} ${inter.variable} ${caveat.variable}`}>
-      <body className="antialiased selection:bg-[#FF9FD3] selection:text-[#6344FF]">
-        <CustomCursor />
+      <body className="antialiased selection:bg-[#FF9FD3] selection:text-[#6344FF] cursor-default">
         <SmoothScrolling>
           {children}
         </SmoothScrolling>
@@ -43,3 +41,4 @@ export default function RootLayout({
     </html>
   );
 }
+

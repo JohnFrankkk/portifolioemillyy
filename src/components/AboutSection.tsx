@@ -61,7 +61,7 @@ export default function AboutSection() {
               key={i}
               variants={itemVariants} 
               whileHover={{ scale: 1.05, rotate: i % 2 === 0 ? 2 : -2 }}
-              className={`${stat.color} ${stat.text} p-6 rounded-3xl border-4 border-navy shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] flex flex-col justify-center items-center text-center cursor-none hover-trigger`}
+              className={`${stat.color} ${stat.text} p-6 rounded-3xl border-4 border-navy shadow-[4px_4px_0px_0px_rgba(26,27,65,1)] flex flex-col justify-center items-center text-center `}
             >
               <span className="font-display font-black text-4xl md:text-5xl mb-1">{stat.value}</span>
               <span className="font-body font-bold text-xs md:text-sm uppercase tracking-widest">{stat.label}</span>
