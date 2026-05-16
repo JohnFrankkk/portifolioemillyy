@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 
 /* ─── Video Card with Play on Hover ─── */
 function VideoCard({ src, title, tag, color }: { src: string; title: string; tag: string; color: string }) {
@@ -130,21 +130,36 @@ function PrakritiCarousel() {
   const [current, setCurrent] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Callback ref: fires every time the video element mounts (including on key change)
-  const videoRef = useCallback((node: HTMLVideoElement | null) => {
-    if (node && isHovering) {
-      node.play().catch(() => {});
+  // Play/pause whenever hover state changes
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    if (isHovering) {
+      vid.play().catch(() => {});
       setIsPlaying(true);
+    } else {
+      vid.pause();
+      vid.currentTime = 0;
+      setIsPlaying(false);
     }
   }, [isHovering]);
+
+  // When video loads after slide change, auto-play if hovering
+  const handleVideoReady = () => {
+    if (isHovering && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+      setIsPlaying(true);
+    }
+  };
 
   const prev = () => { setCurrent(c => c === 0 ? prakritiReels.length - 1 : c - 1); setIsPlaying(false); };
   const next = () => { setCurrent(c => c === prakritiReels.length - 1 ? 0 : c + 1); setIsPlaying(false); };
   const goTo = (i: number) => { setCurrent(i); setIsPlaying(false); };
 
   const handleEnter = () => setIsHovering(true);
-  const handleLeave = () => { setIsHovering(false); setIsPlaying(false); };
+  const handleLeave = () => setIsHovering(false);
 
   return (
     <div className="w-full lg:w-1/2 p-4 md:p-8 bg-cream flex flex-col items-center justify-center">
@@ -161,7 +176,8 @@ function PrakritiCarousel() {
           src={prakritiReels[current].src}
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
+          onLoadedData={handleVideoReady}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className={`absolute inset-0 bg-gradient-to-t ${isPlaying ? 'from-navy/50 via-transparent to-transparent' : 'from-navy/80 via-navy/20 to-transparent'} transition-all duration-500 z-10`} />
